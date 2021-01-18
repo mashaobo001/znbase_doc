@@ -1,24 +1,24 @@
 # **故障诊断**
 
-## **整理集群常见故障问题以及解决方法**
+## **集群常见故障问题以及解决方法**
 
-#### **10.1、clock synchronization error: this node is more than 500ms away from at least half of the known nodes (0 of 1 are within the offset)**
+#### **1、clock synchronization error: this node is more than 500ms away from at least half of the known nodes (0 of 1 are within the offset)**
 
 | 集群节点所在服务器之间的时间间隔不能超过500ms，需要给服务器之间设置ntp时钟同步服务。 |
 
-#### **10.2、ERROR：bini server exited with error：failed to create engines：could not open rocksdb instance：Invalid argument** **：bini_comparator：does not match existing comparator drdb_comparator**
+#### **2、ERROR：bini server exited with error：failed to create engines：could not open rocksdb instance：Invalid argument** **：bini_comparator：does not match existing comparator drdb_comparator**
 
 在集群升级或集群中加入新节点时，需要保证启动命令中指定的存储路径是空，如果使用原有存储路径，会导致版本不一致的错误。
 
-#### **10.3、WARNING 084/172733（9466）：Server psql/DRDB-node1 is DOWN,reason: Layer4 connection problem, info：“Connection refused”，check duration：0ms**
+#### **3、WARNING 084/172733（9466）：Server psql/DRDB-node1 is DOWN,reason: Layer4 connection problem, info：“Connection refused”，check duration：0ms**
 
 配置haproxy高可用时，需要保证各个节点的监听端口可连通，否则haproxy会误认为该节点已宕机。
 
-#### **10.4、pg：rejected：DELETE without WHERE clause（sql_safe_updates = true）**
+#### **4、pg：rejected：DELETE without WHERE clause（sql_safe_updates = true）**
 
 这个错误是数据库的保护机制，如果在执行delete或update操作时，没有指定where语句，会提示此信息。可以加 where 1=1 绕过此报错。
 
- #### **10.5、pq: cannot write to http://172.31.0.158:10080/sbtes1.sql: error response from server:**
+ #### **5、pq: cannot write to http://172.31.0.158:10080/sbtes1.sql: error response from server:**
  **405 Method Not Allowed**
  
  **Method Not Allowed**

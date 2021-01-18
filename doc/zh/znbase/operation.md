@@ -29,6 +29,7 @@
     drdb   start --certs-dir=/root/certs --store=/opt/node1 -advertise-addr=<node1 address>:26257 --http-addr=<node1 address>:8080 --join=<node1 address>,<node2   address>,<node3 address> --cache=.25   --max-sql-memory=.25 –background
     #非安全模式下启动
     drdb   start --insecure --store=/opt/node1 -advertise-addr=<node1 address>:26257 --http-addr=<node1 address>:8080 --join=<node1 address>,<node2 address>,<node3 address> --cache=.25   --max-sql-memory=.25 –background
+    ```
 * **通过 Admin UI 验证节点是否重新加入了集群** 
 
   ![1609139181435](./assets/operation/1609139181435.png)
@@ -123,7 +124,7 @@
   id   | is_live   | replicas | is_decommissioning | is_draining   
   +--- +-----------+----------+--------------------+-------------+ 
     4  |   true    |    73    |        true        |    false      
- (1 row)
+  (1 row)
  ```
 - 节点完全停用并停止后，将会输出下列状态
   ```sh
@@ -161,6 +162,7 @@
   | 4  | false   |        12         |       true         |    true     | 
   (1 row) 
   Decommissioning finished. Please verify cluster health before removing the nodes.
+  ```
 
 步骤 3：停用后检查集群节点状态登陆管理界面，点击左方指标页，选择副本仪表盘，查看每个 Store 的副本和每个Strore 的租赁副状态。 
 

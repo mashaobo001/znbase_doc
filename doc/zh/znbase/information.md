@@ -1,8 +1,8 @@
 # **数据处理**
 
-## **LOAD**
+## **数据加载**
 
-#### **数据加载概述**
+#### **概述**
 
 这部分主要介绍在 ZNBase 中使用的 load 功能，用于将数据批量加载到 ZNBase 表中。
 
@@ -48,18 +48,18 @@
 * 示例 1：往表中导入一个 CSV 文件: 
 
   创建表 customers，往表 customers 导入CSV数据，该 CSV 数据文件存储在本地（NFS/Local）。
- ```
- \> LOAD TABLE customers (Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),name TEXT,INDEX name_idx (name)) CSV DATA  ‘nodelocal:///csv/n1.0.csv’;
- ```
+  ```
+  \> LOAD TABLE customers (Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),name TEXT,INDEX name_idx (name)) CSV DATA  ‘nodelocal:///csv/n1.0.csv’;
+  ```
 * 示例 2： 导入一个 Postgres database dump:
   
   导入本地 nodelocal 挂载路径下 acme-co/data.sql 脚本中所有表结构和数据。
   ```
   \>LOAD PGDUMP ‘nodelocal:///acme-co/data.sql’;
   ```
-## **DUMP**
+## **数据导出**
 
-#### **数据导出概述**
+#### **概述**
 
 这部分主要介绍在 ZNBase 中使用的 dump 功能，用于数据导出（目前支持CSV文件格式）。
 
@@ -97,7 +97,7 @@
   ```
   \> DUMP TO CSV "nodelocal:///csv" FROM SELECT * FROM test WHERE id < 6 WITH delimiter = '\';
   ```
-## **迁移**
+## **跨库迁移**
 
 #### **概述**
 
@@ -155,8 +155,7 @@ pg_dump -t employees  employees >/tmp/employees.sql
  #非安全模式
  ```sh
  drdb sql --insecure --host=localhost --database=test <test.sql> 
- ```
-​       
+ ```    
 
 
 

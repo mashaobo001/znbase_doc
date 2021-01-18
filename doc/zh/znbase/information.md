@@ -106,29 +106,29 @@
 #### **从Postgres迁移到ZNBase**
 
 * 从 Postgre 导出整个数据库 
-```sh
-pg_dump employees > /tmp/employees-full.sql
-```
+  ```sh
+  pg_dump employees > /tmp/employees-full.sql
+  ```
 * 从 Postgre 导出数据库的一张表 
-```sh
-pg_dump -t employees  employees >/tmp/employees.sql
-```
+  ```sh
+  pg_dump -t employees  employees >/tmp/employees.sql
+  ```
 * 导入整个库 
-```
-\> LOAD PGDUMP ('nodelocal:///employees.sql');
-```
+  ```
+  \> LOAD PGDUMP ('nodelocal:///employees.sql');
+  ```
 * 导入一张表 
-```
-\> CREATE DATABASE IF NOT EXISTS employees;                                                                                                                                USE employees;                                                                                                                                                          LOAD TABLE employees FROM PGDUMP 'nodelocal:///employees.sql';
-```
+  ```
+  \> CREATE DATABASE IF NOT EXISTS employees;                                                                                                                                USE employees;                                                                                                                                                          LOAD TABLE employees FROM PGDUMP 'nodelocal:///employees.sql';
+  ```
 * 跳过外键约束 
-```
-\> LOAD PGDUMP ('nodelocal:///employees.sql') WITH skip_foreign_keys;
-```
+  ```
+  \> LOAD PGDUMP ('nodelocal:///employees.sql') WITH skip_foreign_keys;
+  ```
 * 调整行的最大值
-```
-\> LOAD TABLE employees FROM PGDUMP ('nodelocal:///employees.sql')  <br/>WITH max_row_size = '5MB';
-```
+  ```
+  \> LOAD TABLE employees FROM PGDUMP ('nodelocal:///employees.sql')  <br/>WITH max_row_size = '5MB';
+  ```
 ​       该 max_row_size 选项用于覆盖行大小限制。 默认：0.5MB。如果您的 Postgres dump 文件的行非常长，则可能需要调整此设置。
 
 #### **从文件迁移到DRDB**

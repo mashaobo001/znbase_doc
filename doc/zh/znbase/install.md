@@ -60,10 +60,10 @@ Linux 操作系统
 #lsb_release –a 
 
 > No LSB modules are available. 
->         Distributor ID: Ubuntu 
->         Description: Ubuntu 16.04.6 LTS 
->         Release: 16.04 
->         Codename: xenial 
+> Distributor ID: Ubuntu 
+> Description: Ubuntu 16.04.6 LTS 
+> Release: 16.04 
+> Codename: xenial 
 
 #### 3.2.2 集群中节点系统时间保持一致
 
@@ -74,7 +74,7 @@ Linux 操作系统
 #lsof -i:26257 
 
 > COMMAND     PID  USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME 
->         drdb 10583 jesse   12u  IPv6 3263391      0t0  TCP *:26257 (LISTEN)
+> drdb 10583 jesse   12u  IPv6 3263391      0t0  TCP *:26257 (LISTEN)
 
 显示结果若该端口号与数据库默认端口号有冲突，则可以在 root 用户下，使用 kill -9 pid_value 命令来终止发生冲突的进程或是在安装数据库时修改默认端口号。
 
@@ -86,9 +86,9 @@ Linux 操作系统
 
 - 编辑/etc/security/limits.conf 在文件后追加以下内容：
 
-     *soft nofile 35000
+     * soft nofile 35000
 
-     *hard nofile 35000
+     * hard nofile 35000
 
 - 保存并关闭文件。 
 
@@ -140,9 +140,9 @@ ZNBase架构图 如下图所示
 
 ##### **1.**     **获取数据库可执行文件**
 
-a)     获取ZNBase数据库文件并上传到PATH路径下/usr/local/bin
+a) 获取ZNBase数据库文件并上传到PATH路径下/usr/local/bin
 
-b)    生成本地证书：新建两个目录: /opt/certs 用于存放生成的 CA 证书和所有节点以及客户端的证书和密钥文件，其中部分的文件会传输到节点机器上。/opt/my-safe-directory 用于存放生成的 CA 密钥文件，在之后为节点和用户创建证书和密钥的时候使用.
+b) 生成本地证书：新建两个目录: /opt/certs 用于存放生成的 CA 证书和所有节点以及客户端的证书和密钥文件，其中部分的文件会传输到节点机器上。/opt/my-safe-directory 用于存放生成的 CA 密钥文件，在之后为节点和用户创建证书和密钥的时候使用.
 
 $ mkdir /opt/certs
 
@@ -154,7 +154,7 @@ c)     创建 CA 证书和密钥:
 
 $ drdb cert create-ca --certs-dir=/opt/certs --ca-key=/opt/my-safe-directory/ca.key
 
-d)    为第一个节点创建证书和密钥:
+d) 为第一个节点创建证书和密钥:
 ```
 $ drdb cert create-node <node1 internal IP address> <node1 external IP address> <node1 hostname>  <other common names for node1> localhost 127.0.0.1 <load balancer IP address> <load balancer hostname>  <other common names for load balancer instances> --certs-dir=/opt/certs --ca-key=/opt/my-safe-directory/ca.key 
 ```

@@ -1,4 +1,4 @@
- # **管理运维**
+ # **集群管理**
 
 ## **集群升级**
 
@@ -9,39 +9,26 @@
 * **SSH 到将要升级的第一个节点** 
 
 * **停止该节点的 DRDB 服务**
-
-    #安全模式下出                                                                                     
-   |`drdb quit--certs-dir=certs --host=<address of node1>`|
-   | ------------------------------------------------------------ |
-                                                                  
-    #非安全模式下退出                                                                                                                                  
-   |`drdb quit --insecure --host=<address of node1>`| 
-   | ------------------------------------------------------------ |
-  
-
+    ```sh
+    #安全模式下退出
+    drdb quit--certs-dir=certs --host=<address of node1>
+    #非安全模式下退出
+    drdb quit --insecure --host=<address of node1>
+    ```
 * **获取新版本 DRDB 文件并解压：**
-
-  | `tar   -xvz drdb-linux-2.6.32-gnu-amd64.tgz` |
-  | ------------------------------------------ |
- 
-
+    ```sh
+    tar -xvz drdb-linux-2.6.32-gnu-amd64.tgz
+    ```
 * **使用新版本 DRDB 二进制文件替代旧版本的 DRDB 二进制文件：**
-
-  | `cp   -i drdb-linux-2.6.32-gnu-amd64 /usr/local/bin/drdb` |
-  | ------------------------------------------------------- |
- 
-
+    ```sh
+    cp -i drdb-linux-2.6.32-gnu-amd64 /usr/local/bin/drdb
+    ```
 * **启动该节点，重新加入集群。启动命令是用于启动该节点的命令，例如：** 
-
-   #安全模式下启动                                                                                                                                      
-   | `drdb   start --certs-dir=/root/certs --store=/opt/node1 -advertise-addr=<node1 address>:26257 --http-addr=<node1 address>:8080 --join=<node1 address>,<node2 address>,<node3 address> --cache=.25   --max-sql-memory=.25 –background `|
-   | ------------------------------------------------------------ |
-                                                                                                                                                                                                           
-  #非安全模式下启动                                                                                                                                        
-  |`drdb   start --insecure --store=/opt/node1 -advertise-addr=<node1 address>:26257 --http-addr=<node1 address>:8080 --join=<node1 address>,<node2 address>,<node3 address> --cache=.25   --max-sql-memory=.25 –background` |
-  | ------------------------------------------------------------ |
-
-
+    ```sh
+    #安全模式下启动
+    drdb   start --certs-dir=/root/certs --store=/opt/node1 -advertise-addr=<node1 address>:26257 --http-addr=<node1 address>:8080 --join=<node1 address>,<node2   address>,<node3 address> --cache=.25   --max-sql-memory=.25 –background
+    #非安全模式下启动
+    drdb   start --insecure --store=/opt/node1 -advertise-addr=<node1 address>:26257 --http-addr=<node1 address>:8080 --join=<node1 address>,<node2 address>,<node3 address> --cache=.25   --max-sql-memory=.25 –background
 * **通过 Admin UI 验证节点是否重新加入了集群** 
 
   ![1609139181435](./assets/operation/1609139181435.png)
@@ -59,23 +46,21 @@
 步骤 1：在本地机器上，对将要被扩容的节点生成证书 
 
 - 使用集群部署的本地节点，为被扩容节点创建证书和密钥 
-
-  | `drdb cert create-node <addnode internal IP address> < addnode external IP address> < addnode hostname> <other common names for addnode > localhost 127.0.0.1 <load balancer IP address> <load balancer hostname> <other common names for load balancer instances> --certs-dir=/opt/certs --ca-key=/opt/my-safe-directory/ca.key`                                                                                   <br/>#例如                                                                                                                                                                 $ drdb cert create-node 117.73.10.12 localhost 127.0.0.1 --certs-dir=/opt/certs --cakey=/opt/my-safe-directory/ca.key |
-  | ------------------------------------------------------------ |
- 
-
+  ```sh
+  drdb cert create-node <addnode internal IP address> < addnode external IP address> < addnode hostname> <other common names for addnode > localhost 127.0.0.1 <load balancer IP address> <load balancer hostname> <other common names for load balancer instances> --certs-dir=/opt/certs --ca-key=/opt/my-safe-directory/ca.key
+  
+  #例如
+  drdb cert create-node 117.73.10.12 localhost 127.0.0.1 --certs-dir=/opt/certs --cakey=/opt/my-safe-directory/ca.key
+  ```
 - 将 CA 证书，节点证书和密钥传送到被扩容节点：
-
-  | `$ ssh <username>@<node1 address> "mkdir /root/certs"                                                 $ scp /opt/certs/ca.crt /opt/certs/node.crt /opt/certs/node.key <username>@<node1 address>:/root/certs` |
-  | ------------------------------------------------------------ |
-  |                                                              |
-
+  ```sh
+  $ ssh <username>@<node1 address> "mkdir /root/certs" 
+  $ scp /opt/certs/ca.crt /opt/certs/node.crt /opt/certs/node.key <username>@<node1 address>:/root/certs
+  ```
 - 删除本地的节点证书和密钥
-
-  |` $ rm /opt/certs/node.crt /opt/certs/node.key` |
-  | -------------------------------------------- |
-
-
+  ```sh
+  $ rm /opt/certs/node.crt /opt/certs/node.key
+  ```
 - 对每个需要被扩容节点重复执行以上操作
 
 步骤 2：启动节点
@@ -83,23 +68,17 @@
 *  SSH 到需要启动服务的节点机器 
 
 *  获取 ZNBase 安装文件，并解压出可执行文件
-
-  | `tar -xvz drdb-linux-2.6.32-gnu-amd64.tgz` |
-  | ---------------------------------------- |
-  
-
+   ```sh
+   tar -xvz drdb-linux-2.6.32-gnu-amd64.tgz
+   ```
 * 复制解压出的文件到 PATH 路径下
-
-  | `cp -i drdb-linux-2.6.32-gnu-amd64 /usr/local/bin/drdb` |
-  | ----------------------------------------------------- |
- 
-
+  ```sh
+  cp -i drdb-linux-2.6.32-gnu-amd64 /usr/local/bin/drdb
+  ```
 * 执行 drdb start 命令
-
-  | `drdb start --certs-dir=/root/certs --store=/opt/node4 -advertise-addr=<addnode address>:26257 --http-addr=<addnode address>:8080 --join=<node1 address>,<node2 address>,<node3 address> --cache=.25 --max-sql-memory=.25 –background` |
-  | ------------------------------------------------------------ |
- 
-
+  ```sh
+  drdb start --certs-dir=/root/certs --store=/opt/node4 -advertise-addr=<addnode address>:26257 --http-addr=<addnode address>:8080 --join=<node1 address>,<node2 address>,<node3 address> --cache=.25 --max-sql-memory=.25 –background
+  ```
 * 对每个要被扩容的节点，重复执行以上步骤。 
 
 **非安全模式下扩容**
@@ -109,22 +88,17 @@
 -  SSH 到需要启动服务的节点机器 
 
 -  获取 ZNBase 安装文件，并解压出可执行文件
-
-  | `tar -xvz drdb-linux-2.6.32-gnu-amd64.tgz` |
-  | ---------------------------------------- |
- 
-
+   ```sh
+   tar -xvz drdb-linux-2.6.32-gnu-amd64.tgz
+   ```
 - 复制解压出的文件到 PATH 路径下
-
-  | `cp -i drdb-linux-2.6.32-gnu-amd64 /usr/local/bin/drdb` |
-  | ----------------------------------------------------- |
-
+  ```sh
+  cp -i drdb-linux-2.6.32-gnu-amd64 /usr/local/bin/drdb
+  ```
 - 执行 drdb start 命令
-
-  | `drdb start --insecure --store=/opt/node4 -advertise-addr=<addnode address>:26257 --http-addr=<addnode address>:8080 --join=<node1 address>,<node2 address>,<node3 address> --cache=.25 --max-sql-memory=.25 –background` |
-  | ------------------------------------------------------------ |
-
-
+  ```sh
+  drdb start --insecure --store=/opt/node4 -advertise-addr=<addnode address>:26257 --http-addr=<addnode address>:8080 --join=<node1 address>,<node2 address>,<node3 address> --cache=.25 --max-sql-memory=.25 –background
+  ```
 - 对每个要被扩容的节点，重复执行以上步骤。 
 
 #### **集群节点退役**
@@ -138,31 +112,28 @@
 - SSH 登陆想要移除的节点 
 
 - 执行带--decommission及其他必需的参数的 drdb quit 命令：
-
-
-#安全模式
- |$ drdb quit --decommission --certs-dir=/root/certs --host=`<address of node to remove>`|
-  | ------------------------------------------------------------ |
-
-
-#非安全模式 
-|$ drdb quit --decommission --insecure --host=`<address of node to remove>`|
-  | ------------------------------------------------------------ |
- 
-
+  ```sh
+  #安全模式
+  $ drdb quit --decommission --certs-dir=/root/certs --host=<address of node to remove>
+  #非安全模式
+  $ drdb quit --decommission --insecure --host=<address of node to remove>
+  ```
 - 节点将会输出退役状态
-
-  | id   \|  is_live   \|replicas   \|   is_decommissioning  \|  is_draining  |      |                                                                                                                                                          +---- +-------------+--------------+-----------+-----------------+
-   4            true           73                     true   false                                                                                                      (1 rows) | 
-  | ------------------------------------------------------------ |
- 
-
+  ```sh
+  id   | is_live   | replicas | is_decommissioning | is_draining   
+  +--- +-----------+----------+--------------------+-------------+ 
+    4  |   true    |    73    |        true        |    false      
+ (1 row)
+ ```
 - 节点完全停用并停止后，将会输出下列状态
-
-  | id   \|  is_live   \|replicas   \|   is_decommissioning  \| is_draining                                                                                                                                                                                                                                                                                                                      +---- +-------------+--------------+-----------------------------------+-----------------+                                                             4            true           0                     true                            false                                                                                                       (1 rows)                                                                                                                                                              No more data reported on target nodes. Please verify cluster health before removing the nodes.                                                                                                                               ok |
-  | ------------------------------------------------------------ |
- 
-
+  ```sh
+  id   | is_live   | replicas | is_decommissioning | is_draining   
+  +--- +-----------+----------+-------------------—+-------------+ 
+    4  |    true   |    0     |        true        |    false      
+  (1 row)
+  No more data reported on target nodes. Please verify cluster health before removing the nodes. 
+  ok
+  ```
 步骤 2：停用后检查集群节点状态登陆 AdminUI，点击左方指标页，选择副本仪表盘，查看每个 Store 的副本和每个 Strore 的租赁副本状态。
 
 **退役失效节点**
@@ -176,24 +147,20 @@
 * SSH 登陆集群的任意可用节点 
 
 * 根据获取到的失效节点 ID，执行 drdb node decommission 命令
-
-
-#安全模式
-
-|$ drdb quit --decommission 4 --certs-dir=/root/certs -host=192.168.0.30:26260    |
-| ------------------------------------------------------------ |
-
-#非安全模式
-
-$ drdb quit --decommission 4 --insecure --host=192.168.0.30:26260 |
-  | ------------------------------------------------------------ |
-
-
+  ```sh
+  #安全模式
+  $ drdb quit --decommission 4 --certs-dir=/root/certs -host=192.168.0.30:26260 
+  #非安全模式
+  $ drdb quit --decommission 4 --insecure --host=192.168.0.30:26260
+  ```
 * 节点将会输出退役状态
-
-  | id   \|  is_live   \|gossiped_replicas \|   is_decommissioning  \| is_draining                                                                                                                                                                                                                                                                                                                      +---- +-------------+---------------------------+-----------------------------------+-----------------+                                                             4            false                  12                                  true                            true                                                                                                       (1 rows)                                                                                                                                                                                                                                                                                            Decommissioning finished. Please verify cluster health before removing the nodes. |
-  | ------------------------------------------------------------ |
-
+  ```sh
+  +----+---------+-------------------+--------------------+-------------+ 
+  | id | is_live | gossiped_replicas | is_decommissioning | is_draining | 
+  +----+---------+-------------------+--------------------+-------------+ 
+  | 4  | false   |        12         |       true         |    true     | 
+  (1 row) 
+  Decommissioning finished. Please verify cluster health before removing the nodes.
 
 步骤 3：停用后检查集群节点状态登陆管理界面，点击左方指标页，选择副本仪表盘，查看每个 Store 的副本和每个Strore 的租赁副状态。 
 

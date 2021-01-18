@@ -201,7 +201,7 @@ $ cp -i drdb-v****.linux-amd64/drdb /usr/local/bin/
 
 n)    执行数据库 start 命令
 ```
-$ drdb start --certs-dir=/root/certs --store=/opt/node1 --advertise-addr=<node1 address>:26257 --listen-addr=<node1 address>:26257 --http-addr=<node1 address>:8080 --join=<node1 address>,<node2 address>,<node3 address> -cache=.25 --max-sql-memory=.25 --background 
+$ drdb start --certs-dir=/root/certs --store=/opt/node1 --advertise-addr=<node1 address>:26257 --listen-addr=<node1 address>:26257 --http-addr=<node1 address>:8080 --join=<node1 address>,<node2 address>,<node3 address> --cache=.25 --max-sql-memory=.25 --background 
 ```
 
 o)    对需要加入集群中的每个节点执行m)-n)步骤
@@ -298,7 +298,7 @@ $ drdb init --insecure --host=`<address of any node>`
 
 ​    #安全模式启动 
 
-​    $ drdb sql --certs-dir=certs --host=`<address of different node> `
+​    $ drdb sql --certs-dir=/root/certs --host=`<address of different node> `
 
 ​    #非安全模式启动 
 
@@ -323,7 +323,7 @@ $ drdb init --insecure --host=`<address of any node>`
 
   a)     生成HAPROXY配置文件
 
-   $ drdb gen haproxy --certs-dir=certs --host=`<address of any node> `
+   $ drdb gen haproxy --certs-dir=/root/certs --host=`<address of any node> `
 
   默认情况下，会自动生成 HAPROXY.CFG文件，该配置文件如下:
 
@@ -431,7 +431,6 @@ d)   内置工具workload进行TPCC性能测试
   drdb workload init tpcc 'postgresql://root@localhost:26257?sslmode=disable'
 
 - 执行测试（非安全模式）
-
 
 ​       drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslmode=disable
 

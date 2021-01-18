@@ -144,18 +144,12 @@ pg_dump -t employees  employees >/tmp/employees.sql
 * 迁移方法二：SQL文件迁移
 
   适用于小数据量的迁移，源库按照自身数据导出dump方式或使用工具将数据导出到SQL文件中，在导入过程中出现错误或者中断，需要人工介入。命令行方式如下：
-  
- 
-
- #安全模式
- ```sh
- drdb sql –certs-dir=/root/certs --host=localhost --database=test <test.sql>
- ```
-                                                                  
- #非安全模式
- ```sh
- drdb sql --insecure --host=localhost --database=test <test.sql> 
- ```    
+  ```sh
+  #安全模式
+  drdb sql –certs-dir=/root/certs --host=localhost --database=test <test.sql>
+  #非安全模式
+  drdb sql --insecure --host=localhost --database=test <test.sql> 
+  ```    
 
 
 

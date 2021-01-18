@@ -418,7 +418,7 @@ d)   内置工具workload进行TPCC性能测试
 
 ###### **2.2 测试语句**
 
--  加载数据（安全模式）：
+- 加载数据（安全模式）：
 
   drdb workload init tpcc 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'
 
@@ -432,7 +432,7 @@ d)   内置工具workload进行TPCC性能测试
 
 - 执行测试（非安全模式）
 
-​       drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslmode=disable
+  drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslmode=disable
 
 ###### **2.3 结果分析**
 

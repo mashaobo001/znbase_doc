@@ -48,19 +48,15 @@
 * 示例 1：往表中导入一个 CSV 文件: 
 
   创建表 customers，往表 customers 导入CSV数据，该 CSV 数据文件存储在本地（NFS/Local）。
-
-  | LOAD TABLE customers (                                                                                                             Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),                                                                name TEXT,                                                                                                                               INDEX name_idx (name)                                                                                                                                     ) CSV DATA  ‘nodelocal:///csv/n1.0.csv’; |
-  | ------------------------------------------------------------ |
-  |                                                              |
-
+ ```
+ \> LOAD TABLE customers (Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),name TEXT,INDEX name_idx (name)) CSV DATA  ‘nodelocal:///csv/n1.0.csv’;
+ ```
 * 示例 2： 导入一个 Postgres database dump:
   
   导入本地 nodelocal 挂载路径下 acme-co/data.sql 脚本中所有表结构和数据。
-  
-  | LOAD PGDUMP ‘nodelocal:///acme-co/data.sql’; |
-  | -------------------------------------------- |
- 
-
+  ```
+  \>LOAD PGDUMP ‘nodelocal:///acme-co/data.sql’;
+  ```
 ## **DUMP**
 
 #### **数据导出概述**
@@ -97,12 +93,10 @@
 
 * 示例 ：使用 SELECT 导出：
 
-  导出 select * from test where id <6 的结果集到 nodelocal 下 csv 目录中，csv 文件名为 n1.0.csv。数据行数是 5，大小 10byte。  
-
-  | DUMP TO CSV "nodelocal:///csv" FROM SELECT * FROM test WHERE id < 6 WITH delimiter = '\ |
-  | ------------------------------------------------------------ |
-
-
+  导出 select * from test where id <6 的结果集到 nodelocal 下 csv 目录中，csv 文件名为 n1.0.csv。数据行数是 5，大小 10byte。 
+  ```
+  \> DUMP TO CSV "nodelocal:///csv" FROM SELECT * FROM test WHERE id < 6 WITH delimiter = '\';
+  ```
 ## **迁移**
 
 #### **概述**
@@ -112,41 +106,29 @@
 #### **从Postgres迁移到ZNBase**
 
 * 从 Postgre 导出整个数据库 
-
-  | pg_dump employees > /tmp/employees-full.sql |
-  | ------------------------------------------- |
-
-
+```sh
+pg_dump employees > /tmp/employees-full.sql
+```
 * 从 Postgre 导出数据库的一张表 
-
-  | pg_dump -t employees  employees >/tmp/employees.sql |
-  | --------------------------------------------------- |
- 
-
+```sh
+pg_dump -t employees  employees >/tmp/employees.sql
+```
 * 导入整个库 
-
-  | LOAD PGDUMP ('nodelocal:///employees.sql'); |
-  | ------------------------------------------- |
- 
-
+```
+\> LOAD PGDUMP ('nodelocal:///employees.sql');
+```
 * 导入一张表 
-
-  | CREATE DATABASE IF NOT EXISTS employees;                                                                                      USE employees;                                                                                                                                     LOAD TABLE employees FROM PGDUMP 'nodelocal:///employees.sql'; |
-  | ------------------------------------------------------------ |
- 
-
+```
+\> CREATE DATABASE IF NOT EXISTS employees;                                                                                                                                USE employees;                                                                                                                                                          LOAD TABLE employees FROM PGDUMP 'nodelocal:///employees.sql';
+```
 * 跳过外键约束 
-
-  | LOAD PGDUMP ('nodelocal:///employees.sql') WITH skip_foreign_keys; |
-  | ------------------------------------------------------------ |
-
-
+```
+\> LOAD PGDUMP ('nodelocal:///employees.sql') WITH skip_foreign_keys;
+```
 * 调整行的最大值
-
-  | LOAD TABLE employees FROM PGDUMP ('nodelocal:///employees.sql')  <br/>WITH max_row_size = '5MB'; |
-  | ------------------------------------------------------------ |
- 
-
+```
+\> LOAD TABLE employees FROM PGDUMP ('nodelocal:///employees.sql')  <br/>WITH max_row_size = '5MB';
+```
 ​       该 max_row_size 选项用于覆盖行大小限制。 默认：0.5MB。如果您的 Postgres dump 文件的行非常长，则可能需要调整此设置。
 
 #### **从文件迁移到DRDB**
@@ -165,13 +147,15 @@
   
  
 
- #安全模式                                                                                     
-   |drdb sql –certs-dir=/root/certs --host=localhost --database=test <test.sql>|
-   | ------------------------------------------------------------ |
+ #安全模式
+ ```sh
+ drdb sql –certs-dir=/root/certs --host=localhost --database=test <test.sql>
+ ```
                                                                   
- #非安全模式                                                                                                                                
-   |drdb sql --insecure --host=localhost --database=test <test.sql>| 
-   | ------------------------------------------------------------ |
+ #非安全模式
+ ```sh
+ drdb sql --insecure --host=localhost --database=test <test.sql> 
+ ```
 ​       
 
 

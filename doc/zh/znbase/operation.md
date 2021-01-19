@@ -123,7 +123,7 @@
   +--- +-----------+----------+--------------------+-------------+ 
     4  |   true    |    73    |        true        |    false      
   (1 row)
- ```
+  ```
  * 节点完全停用并停止后，将会输出下列状态
   ```sh
   id   | is_live   | replicas | is_decommissioning | is_draining   
@@ -131,7 +131,7 @@
     4  |    true   |    0     |        true        |    false      
   (1 row)
   No more data reported on target nodes. Please verify cluster health before removing the nodes. 
- ```
+  ```
 
 步骤 2：停用后检查集群节点状态登陆 AdminUI，点击左方指标页，选择副本仪表盘，查看每个 Store 的副本和每个 Strore 的租赁副本状态。
 

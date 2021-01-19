@@ -17,31 +17,31 @@
 
 * table_name  
 
-​       指定导入表的名称。例如表名是 TEST。 
+  指定导入表的名称。例如表名是 TEST。 
 
 * file_location 
 
-​       指定建表脚本文件路径和文件名。要求表结构脚本中表名和 table_name 一致，列数到 csv 数据的  列数一致，列类型属性满足 csv 数据导入需要。例如 nodelocal:///table/test.sql。 
+  指定建表脚本文件路径和文件名。要求表结构脚本中表名和 table_name 一致，列数到 csv 数据的  列数一致，列类型属性满足 csv 数据导入需要。例如 nodelocal:///table/test.sql。 
 
 * table_elem_list 
 
-​       指定导入表的列元素属性。例如 id INT, name VARCHAR, primary key(id)。 
+  指定导入表的列元素属性。例如 id INT, name VARCHAR, primary key(id)。 
 
 * load_format 
 
-​       指定文件格式，在此处为 CSV。 
+  指定文件格式，在此处为 CSV。 
 
 * insert_column_list 
 
-​       指定将数据导入的列。 
+  指定将数据导入的列。 
 
 * file_location_list 
 
-​       指定导入数据文件路径和文件名。例如 nodelocal:///csv/n1.0.csv。 
+  指定导入数据文件路径和文件名。例如 nodelocal:///csv/n1.0.csv。 
 
 * kv_option_list 
 
-​       指定数据导入时的参数。例如使用delimiter指定数据文件中列分隔符，comment指定省略行的标识符，nullif将数据文件中指定的字符串转换为 NULL关键字，默认为‘\N’。
+  指定数据导入时的参数。例如使用delimiter指定数据文件中列分隔符，comment指定省略行的标识符，nullif将数据文件中指定的字符串转换为 NULL关键字，默认为‘\N’。
 
 #### **语法示例**
 
@@ -71,23 +71,23 @@
 
 * Dump_format   
 
-​       指定数据导出的格式，数据导出时该参数只能是 CSV。 
+  指定数据导出的格式，数据导出时该参数只能是 CSV。 
 
 * file_location 
 
-​       指定数据导出的路径。 可使用第三方存储。包括 aws, aurze,google cloud，NFS 等。但一般情况下使用 NFS, 即 nodelocal:///存储在本地。
+  指定数据导出的路径。 可使用第三方存储。包括 aws, aurze,google cloud，NFS 等。但一般情况下使用 NFS, 即 nodelocal:///存储在本地。
 
 * select_stmt 
 
-​       指定要导出的 Query 查询语句的结果集。Select 语句可以加 where 条件和 join。使导出符合需要的数据集。 
+  指定要导出的 Query 查询语句的结果集。Select 语句可以加 where 条件和 join。使导出符合需要的数据集。 
 
 * Table_name 
 
-​       指定要导出的表名。 
+  指定要导出的表名。 
 
 * opt_with_options 
 
-​       CSV 数据导出的参数。使用delimiter指定列分隔符，nullas指定字符串，转换 SQL 中空值。
+  CSV 数据导出的参数。使用delimiter指定列分隔符，nullas指定字符串，转换 SQL 中空值。
 
 #### **语法示例**  
 
@@ -129,17 +129,17 @@
   ```
   \> LOAD TABLE employees FROM PGDUMP ('nodelocal:///employees.sql')  <br/>WITH max_row_size = '5MB';
   ```
-​       该 max_row_size 选项用于覆盖行大小限制。 默认：0.5MB。如果您的 Postgres dump 文件的行非常长，则可能需要调整此设置。
+  该 max_row_size 选项用于覆盖行大小限制。 默认：0.5MB。如果您的 Postgres dump 文件的行非常长，则可能需要调整此设置。
 
 #### **从文件迁移到DRDB**
 
 * 试用场景
 
-​       适合将不兼容 Postgres协议的异构数据库的数据迁移到DRDB。
+  适合将不兼容 Postgres协议的异构数据库的数据迁移到DRDB。
 
 * 迁移方法一：CSV格式文件迁移
 
-​       将源库全量数据导出到CSV格式的文件中，使用LOAD语句将CSV格式的数据导入到DRDB。在   DRDB中执行 LOAD语句导入 CSV 格式的数据，这种导入方法使用比较方便，但是如果在导入过程中出现错误或者中断，需要人工介入，检查数据的一致性和完整性。 
+  将源库全量数据导出到CSV格式的文件中，使用LOAD语句将CSV格式的数据导入到DRDB。在   DRDB中执行 LOAD语句导入 CSV 格式的数据，这种导入方法使用比较方便，但是如果在导入过程中出现错误或者中断，需要人工介入，检查数据的一致性和完整性。 
 
 * 迁移方法二：SQL文件迁移
 

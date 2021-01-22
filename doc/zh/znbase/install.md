@@ -57,13 +57,13 @@ Linux 操作系统
 
 检查集群各节点中操作系统版本的一致性，查看 Linux 系统版本的命令如下：
 
-`#lsb_release –a 
+`#lsb_release –a`
 
 > No LSB modules are available. 
 > Distributor ID: Ubuntu 
 > Description: Ubuntu 16.04.6 LTS 
 > Release: 16.04 
-> Codename: xenial `
+> Codename: xenial 
 
 #### 3.2.2 集群中节点系统时间保持一致
 
@@ -71,10 +71,10 @@ Linux 操作系统
 
 #### 3.2.3 数据库服务默认端口是否被占用
 
-`#lsof -i:26257 
+`#lsof -i:26257`
 
 > COMMAND     PID  USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME 
-> drdb 10583 jesse   12u  IPv6 3263391      0t0  TCP *:26257 (LISTEN)`
+> drdb 10583 jesse   12u  IPv6 3263391      0t0  TCP *:26257 (LISTEN)
 
 显示结果若该端口号与数据库默认端口号有冲突，则可以在 root 用户下，使用 kill -9 pid_value 命令来终止发生冲突的进程或是在安装数据库时修改默认端口号。
 

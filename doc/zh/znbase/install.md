@@ -57,13 +57,13 @@ Linux 操作系统
 
 检查集群各节点中操作系统版本的一致性，查看 Linux 系统版本的命令如下：
 
-#lsb_release –a 
+`#lsb_release –a 
 
 > No LSB modules are available. 
 > Distributor ID: Ubuntu 
 > Description: Ubuntu 16.04.6 LTS 
 > Release: 16.04 
-> Codename: xenial 
+> Codename: xenial `
 
 #### 3.2.2 集群中节点系统时间保持一致
 
@@ -71,10 +71,10 @@ Linux 操作系统
 
 #### 3.2.3 数据库服务默认端口是否被占用
 
-#lsof -i:26257 
+`#lsof -i:26257 
 
 > COMMAND     PID  USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME 
-> drdb 10583 jesse   12u  IPv6 3263391      0t0  TCP *:26257 (LISTEN)
+> drdb 10583 jesse   12u  IPv6 3263391      0t0  TCP *:26257 (LISTEN)`
 
 显示结果若该端口号与数据库默认端口号有冲突，则可以在 root 用户下，使用 kill -9 pid_value 命令来终止发生冲突的进程或是在安装数据库时修改默认端口号。
 
@@ -86,9 +86,8 @@ Linux 操作系统
 
 - 编辑/etc/security/limits.conf 在文件后追加以下内容：
 
-     * soft nofile 35000
-
-     * hard nofile 35000
+     `* soft nofile 35000`
+     `* hard nofile 35000`
 
 - 保存并关闭文件。 
 
@@ -96,10 +95,10 @@ Linux 操作系统
 
 - 执行ulimit -a命令确认修改结果
 
-- 修改系统范围限制：需要确保系统范围的最大句柄限制值至少是上述单个进程限制值的 10 倍。查看系统范围内的文件句柄数量：cat /proc/sys/fs/file-max；
+- 修改系统范围限制：需要确保系统范围的最大句柄限制值至少是上述单个进程限制值的 10 倍。查看系统范围内的文件句柄数量：`cat /proc/sys/fs/file-max`；
 
 
-根据需要提高系统范围限制值：echo 350000 > /proc/sys/fs/file-max
+根据需要提高系统范围限制值：`echo 350000 > /proc/sys/fs/file-max`
 
 <!--注意: 关于操作系统最大文件句柄值，数据库只取硬限制的值，因此不需要调整软限制的值。-->
 
@@ -144,15 +143,15 @@ a) 获取ZNBase数据库文件并上传到PATH路径下/usr/local/bin
 
 b) 生成本地证书：新建两个目录: /opt/certs 用于存放生成的 CA 证书和所有节点以及客户端的证书和密钥文件，其中部分的文件会传输到节点机器上。/opt/my-safe-directory 用于存放生成的 CA 密钥文件，在之后为节点和用户创建证书和密钥的时候使用.
 
-$ mkdir /opt/certs
+`$ mkdir /opt/certs`
 
-$ mkdir /opt/my-safe-directory
+`$ mkdir /opt/my-safe-directory`
 
 **2.**     **本地生成证书**
 
 c)     创建 CA 证书和密钥:
 
-$ drdb cert create-ca --certs-dir=/opt/certs --ca-key=/opt/my-safe-directory/ca.key
+`$ drdb cert create-ca --certs-dir=/opt/certs --ca-key=/opt/my-safe-directory/ca.key`
 
 d) 为第一个节点创建证书和密钥:
 ```
@@ -161,13 +160,13 @@ $ drdb cert create-node <node1 internal IP address> <node1 external IP address> 
 
 e)     将 CA 证书，节点证书和密钥传送到第一个节点：
 
-$ ssh `<username>@<node1 address>` "mkdir /root/certs" 
+`$ ssh <username>@<node1 address> "mkdir /root/certs"`
 
-$ scp /opt/certs/ca.crt /opt/certs/node.crt /opt/certs/node.key `<username>@<node1 address>:/root/certs `
+`$ scp /opt/certs/ca.crt /opt/certs/node.crt /opt/certs/node.key <username>@<node1 address>:/root/certs`
 
 f)     删除本地的节点证书和密钥:
 
-$ rm /opt/certs/node.crt /opt/certs/node.key
+`$ rm /opt/certs/node.crt /opt/certs/node.key`
 
 g)     为第二个节点创建证书和密钥
 ```
@@ -176,15 +175,15 @@ $ drdb cert create-node <node2 internal IP address> <node2 external IP address> 
 
 h)    将 CA 证书，节点证书和密钥传送到第二个节点
 
-$ ssh `<username>@<node2 address>` "mkdir /root/certs" 
+`$ ssh <username>@<node2 address> "mkdir /root/certs" `
 
-$ scp /opt/certs/ca.crt /opt/certs/node.crt /opt/certs/node.key `<username>@<node2 address>:/root/certs`
+`$ scp /opt/certs/ca.crt /opt/certs/node.crt /opt/certs/node.key <username>@<node2 address>:/root/certs`
 
 i)      对于其它的每个需要安装证书的集群节点，请重复 f)-h) 步骤
 
 j)     为 root 用户创建客户端证书和密钥
 
-$ drdb cert create-client root --certs-dir=/opt/certs --ca-key=/opt/my-safedirectory/ca.key 
+`$ drdb cert create-client root --certs-dir=/opt/certs --ca-key=/opt/my-safedirectory/ca.key `
 
 k)     将证书和密钥传输到你想要执行数据库命令的机器上，该机器可以是集群中或是集群外的一个节点，拥有该证书的机器能够使用 root 账户执行数据库命令，可以通过该节点机器访问集群.
 ```
@@ -197,7 +196,7 @@ l)      如果在以后你想在其它某个机器上运行数据库客户端命
 
 m)    SSH 到需要启动服务的节点机器，获取数据库可执行文件，并上传到指定目录:
 
-$ cp -i drdb-v****.linux-amd64/drdb /usr/local/bin/ 
+`$ cp -i drdb-v****.linux-amd64/drdb /usr/local/bin/ `
 
 n)    执行数据库 start 命令
 ```
@@ -223,7 +222,7 @@ o)    对需要加入集群中的每个节点执行m)-n)步骤
 
 p)    在集群第一个节点执行数据库init命令。（需要该节点拥有 root 用户的证书和密钥）
 
-$ drdb init --certs-dir=/root/certs --host=`<address of any node> `
+`$ drdb init --certs-dir=/root/certs --host=<address of any node>`
 
 #### 3.4.3  非安全模式部署和启动
 
@@ -259,7 +258,7 @@ d)    在集群中的其它节点重复执行b)-c)步骤
 
 e)     在集群第一个节点执行 数据库 init 命令
 
-$ drdb init --insecure --host=`<address of any node>` 
+`$ drdb init --insecure --host=<address of any node>` 
 
 <!--**注：非安全模式集群的风险：**-->
 
@@ -280,11 +279,11 @@ $ drdb init --insecure --host=`<address of any node>`
 
 ​    #安全模式启动 
 
-​    $ drdb sql --certs-dir=certs --host=`<address of any node>` 
+​    `$ drdb sql --certs-dir=certs --host=<address of any node>`
 
 ​    #非安装模式启动 
 
-​    $ drdb sql --insecure --host=`<address of any node> `
+​    `$ drdb sql --insecure --host=<address of any node>`
 
    b)    创建NODETEST数据库
 
@@ -298,17 +297,17 @@ $ drdb init --insecure --host=`<address of any node>`
 
 ​    #安全模式启动 
 
-​    $ drdb sql --certs-dir=/root/certs --host=`<address of different node> `
+​    `$ drdb sql --certs-dir=/root/certs --host=<address of different node> `
 
 ​    #非安全模式启动 
 
-​    $ drdb sql --insecure --host=`<address of differentnode> `
+​    `$ drdb sql --insecure --host=<address of differentnode> `
 
    b)    检查数据库
 
 > SHOW DATABASES; 
 
-   c)     使用\q或CTRL+D退出
+   c)     使用`\q`或`CTRL+D`退出
 
 #### 3.4.5配置 HAProxy 负载均衡
 
@@ -323,7 +322,7 @@ $ drdb init --insecure --host=`<address of any node>`
 
   a)     生成HAPROXY配置文件
 
-   $ drdb gen haproxy --certs-dir=/root/certs --host=`<address of any node> `
+   `$ drdb gen haproxy --certs-dir=/root/certs --host=<address of any node> `
 
   默认情况下，会自动生成 HAPROXY.CFG文件，该配置文件如下:
 
@@ -346,15 +345,15 @@ $ drdb init --insecure --host=`<address of any node>`
 
   b)    将CFG文件上传到要运行的HAPROXY机器上
 
-   $ scp haproxy.cfg `<username>@<haproxy address>:~/ `
+   `$ scp haproxy.cfg <username>@<haproxy address>:~/ `
 
   c)     SSH到运行的机器上并安装
 
-   $ apt-get install haproxy 
+   `$ apt-get install haproxy` 
 
  d)    启动HAPROXY,使用-f指向CFG文件
 
-   $ haproxy -f haproxy.cfg 
+   `$ haproxy -f haproxy.cfg `
 
  e)     若要使用多个HAPROXY实例，请重复步骤a)-d)
 
@@ -380,19 +379,19 @@ d)   内置工具workload进行TPCC性能测试
 
 - 加载数据（安全模式）：
 
-  drdb workload init tpcc 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'
+  `drdb workload init tpcc 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'`
 
 - 执行测试（安全模式）：
 
-  drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'
+  `drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'`
 
 - 加载数据（非安全模式）：
 
-  drdb workload init tpcc 'postgresql://root@localhost:26257?sslmode=disable'
+  `drdb workload init tpcc 'postgresql://root@localhost:26257?sslmode=disable'`
 
 - 执行测试（非安全模式）
 
-  drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslmode=disable
+  `drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslmode=disable`
 
 ######  **1.3 结果分析**
 
@@ -420,19 +419,19 @@ d)   内置工具workload进行TPCC性能测试
 
 - 加载数据（安全模式）：
 
-  drdb workload init tpcc 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'
+  `drdb workload init tpcc 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'`
 
 - 执行测试（安全模式）：
 
-  drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'
+  `drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'`
 
 - 加载数据（非安全模式）：
 
-  drdb workload init tpcc 'postgresql://root@localhost:26257?sslmode=disable'
+  `drdb workload init tpcc 'postgresql://root@localhost:26257?sslmode=disable'`
 
 - 执行测试（非安全模式）
 
-  drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslmode=disable
+  `drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslmode=disable`
 
 ###### **2.3 结果分析**
 

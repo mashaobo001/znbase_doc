@@ -87,6 +87,7 @@ Linux 操作系统
 - 编辑/etc/security/limits.conf 在文件后追加以下内容：
 
      `* soft nofile 35000`
+     
      `* hard nofile 35000`
 
 - 保存并关闭文件。 

@@ -9,7 +9,7 @@
 
  
 
-## **安全模式** 
+### **安全模式** 
 
 用浏览器登入网址：https://192.168.88.21:8080/（IP为数据库任何已启动节点IP），
 
@@ -21,7 +21,7 @@ CREATE USER inspur WITH PASSWORD 'inspur123';
 
 ![img](./assets/monitor/clip_image002.png)
 
-## **非安全模式** 
+### **非安全模式** 
 
 用浏览器登入网址：http://192.168.88.21:8080/（IP为数据库任何已启动节点IP），
 
@@ -31,7 +31,7 @@ CREATE USER inspur WITH PASSWORD 'inspur123';
 
  
 
-## **监控框架概述** 
+## **概述** 
 
 管理员界面的“概览”页面提供了集群节点及其活动状态，Ranges 状态，正常运行时间和关键硬件指标的详细信息。
 

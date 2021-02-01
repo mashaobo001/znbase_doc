@@ -59,11 +59,11 @@ Linux 操作系统
 
 `#lsb_release –a`
 
-> No LSB modules are available. 
-> Distributor ID: Ubuntu 
-> Description: Ubuntu 16.04.6 LTS 
-> Release: 16.04 
-> Codename: xenial 
+> No LSB modules are available.  
+> Distributor ID: Ubuntu  
+> Description: Ubuntu 16.04.6 LTS  
+> Release: 16.04  
+> Codename: xenial   
 
 #### 集群中节点系统时间保持一致
 
@@ -73,8 +73,8 @@ Linux 操作系统
 
 `#lsof -i:26257`
 
-> COMMAND     PID  USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME 
-> drdb 10583 jesse   12u  IPv6 3263391      0t0  TCP *:26257 (LISTEN)
+> COMMAND     PID  USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME  
+> drdb 10583 jesse   12u  IPv6 3263391      0t0  TCP *:26257 (LISTEN)  
 
 显示结果若该端口号与数据库默认端口号有冲突，则可以在 root 用户下，使用 kill -9 pid_value 命令来终止发生冲突的进程或是在安装数据库时修改默认端口号。
 
@@ -327,8 +327,8 @@ e)     在集群第一个节点执行 数据库 init 命令
 
   默认情况下，会自动生成 HAPROXY.CFG文件，该配置文件如下:
 
- < Global  
-   axconn 4096  
+   Global  
+   maxconn 4096  
    defaults  mode tcp  
    Timeout values should be configured for your specific use.  
    See: https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#4timeout%20connect  

@@ -328,14 +328,13 @@ e)     在集群第一个节点执行 数据库 init 命令
   默认情况下，会自动生成 HAPROXY.CFG文件，该配置文件如下:
 
    < Global
-   
-   < Maxconn 4096
-   < defaults  mode tcp 
-   < Timeout values should be configured for your specific use. 
+   < maxconn 4096
+   < defaults  mode tcp
+   < Timeout values should be configured for your specific use.
    < See: https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#4timeout%20connect
    < timeout connect     10s
    < timeout client      1m
-   < timeout server      1m 
+   < timeout server      1m
    < TCP keep-alive on client side. Server already enables them. option              
    < clitcpka listen psql bind :26257 
    < mode tcp 

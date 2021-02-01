@@ -357,4 +357,3 @@ e)     在集群第一个节点执行 数据库 init 命令
    `$ haproxy -f haproxy.cfg `
 
  e)     若要使用多个HAPROXY实例，请重复步骤a)-d)
-

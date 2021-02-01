@@ -2,11 +2,11 @@
 
 # 安装部署
 
-## 3.1 软硬件环境需求
+## 软硬件环境需求
 
 ZNBase是浪潮打造的一款分布式数据库产品，具备强一致、高可用分布式架构、分布式水平扩展、高性能、企业级安全等特性。可以很好的部署和运行在X86架构服务器环境，ARM架构服务器环境及主流虚拟化环境，并支持绝大多数的主流硬件网络.
 
-#### 3.1.1 Linux操作系统
+#### Linux操作系统
 
 云溪ZNBase数据库支持主流操作系统:Linux，中标麒麟，银河麒麟，UOS等
 
@@ -19,7 +19,7 @@ Linux 操作系统
 | Ubuntu LTS               | 18.04版本及以上 |
 | Red Hat Enterprise Linux | 7.3版本及以上   |
 
-#### 3.1.2  **硬件要求**
+#### **硬件要求**
 
 云溪ZNBase数据库支持主流硬件系统:X86，ARM，海光，飞腾，兆芯等
 
@@ -39,21 +39,21 @@ Linux 操作系统
 
 **容器化部署**：云溪ZNBase数据库支持容器部署。云溪ZNBase数据库本身使用DOCKER打包，依托于浪潮云原生平台与生态，数据库支持K8S云原生接口，可以实现一键部署以及容器排编，快速搭建、管理和监控。
 
-#### 3.1.3   **软件要求**
+#### **软件要求**
 
 - 集群中各个节点的操作系统需要安装必需软件包，数据库文件需要依赖 GLIBC，LIBNCURSES，TZDATA。
 - 集群中各个节点的操作系统需要安装 NTP 软件包或其他时钟同步软件，保证各个节点操作系统时间一致。
 - 根据业务需求选择安装 HAPROXY 负载均衡功能，版本不低于1.5.0。
 
-#### 3.1.4 Web浏览器配置要求
+#### Web浏览器配置要求
 
 ​    ZNBase提供AdminUI数据库控制台，对数据库集群的各项指标进行可视化展现，支持Google Chrome的较新版本即可访问监控入口。
 
-## 3.2 部署环境检查
+## 部署环境检查
 
 本节介绍ZNBase数据库集群部署时对操作系统一致性，集群节点时间一致性，数据库端口和文件句柄个数进行检查和设置。
 
-#### 3.2.1 操作系统版本一致性：
+#### 操作系统版本一致性：
 
 检查集群各节点中操作系统版本的一致性，查看 Linux 系统版本的命令如下：
 
@@ -65,11 +65,11 @@ Linux 操作系统
 > Release: 16.04 
 > Codename: xenial 
 
-#### 3.2.2 集群中节点系统时间保持一致
+#### 集群中节点系统时间保持一致
 
 集群节点中需要中等强度的时钟同步机制以维持数据的一致性。当一个节点检测到自身的机器时间与集群中至少50%节点的机器时间之间的误差值超过集群最大允许时间误差值（默认 500ms）的80%的时候，该节点会自动停止。这能够避免违反数据一致性，导致读写旧数据的风险。因此，必须在每个节点上运行 NTP 或其他时钟同步软件,来防止时钟漂移得太远。
 
-#### 3.2.3 数据库服务默认端口是否被占用
+#### 数据库服务默认端口是否被占用
 
 `#lsof -i:26257`
 
@@ -78,7 +78,7 @@ Linux 操作系统
 
 显示结果若该端口号与数据库默认端口号有冲突，则可以在 root 用户下，使用 kill -9 pid_value 命令来终止发生冲突的进程或是在安装数据库时修改默认端口号。
 
-#### 3.2.4 修改 Linux 系统文件句柄限制
+#### 修改 Linux 系统文件句柄限制
 
 数据库会使用大量的文件句柄，通常会超过 LINUX默认情况下可用的文件句柄数。 因此，建议对于每一个数据库节点修改文件句柄数：最大文件句柄数量至少需要设置为 1956（其中每个 store 需要 1700 个文件句柄， 256 用于网络），低于该阈值节点将无法启动数据库服务。推荐将最大文件句柄数量配置为UNLIMITED，或者将该值设置为 15000（其中每个 store 需要 10000 个文件句柄，5000 用于网络）或更高的值以支持数据库集群增长的性能需求。如果在一个节点上配备了 3 个 store，我们建议将硬限制修改为至少 35000（每个 store 分配 10000，网络分配 5000）。
 
@@ -103,7 +103,7 @@ Linux 操作系统
 
 <!--注意: 关于操作系统最大文件句柄值，数据库只取硬限制的值，因此不需要调整软限制的值。-->
 
-## **3.3**  配置拓扑结构
+## 配置拓扑结构
 
 本节介绍ZNBase集群的最小部署拓扑结构
 
@@ -119,7 +119,7 @@ ZNBase架构图 如下图所示
 | Node2 | 32个CPU 和64 GB RAM | 10.1.1.2 | 默认端口   全局目录配置 |
 | Node3 | 32个CPU 和64 GB RAM | 10.1.1.3 | 默认端口   全局目录配置 |
 
-## **3.4**  安装启动
+## 安装启动
 
 **本节介绍数据库部署和启动，主要分为两种方式供用户选择。**
 
@@ -127,7 +127,7 @@ ZNBase架构图 如下图所示
 
 ● 以非安全模式方式部署启动ZNBase集群
 
-#### 3.4.1前提条件
+#### 前提条件
 
 - 确保集群各个节点系统时间同步
 
@@ -136,9 +136,9 @@ ZNBase架构图 如下图所示
 - 网络配置允许 26257 和 8080 端口上的 TCP 通信
 
 
-#### 3.4.2安全模式部署和启动
+#### 安全模式部署和启动
 
-##### **1.**     **获取数据库可执行文件**
+#####  **获取数据库可执行文件**
 
 a) 获取ZNBase数据库文件并上传到PATH路径下/usr/local/bin
 
@@ -148,7 +148,7 @@ b) 生成本地证书：新建两个目录: /opt/certs 用于存放生成的 CA 
 
 `$ mkdir /opt/my-safe-directory`
 
-**2.**     **本地生成证书**
+ **本地生成证书**
 
 c)     创建 CA 证书和密钥:
 
@@ -193,7 +193,7 @@ $ ssh <username>@<workload address> "mkdir /root/certs" $ scp /opt/certs/ca.crt 
 
 l)      如果在以后你想在其它某个机器上运行数据库客户端命令，则需要将 root 用户的证书和密钥复制到该节点。只有拥有 root 用户证书和密钥的节点，才能够访问集群
 
-**3.**     **数据库启动**
+**数据库启动**
 
 m)    SSH 到需要启动服务的节点机器，获取数据库可执行文件，并上传到指定目录:
 
@@ -219,19 +219,19 @@ o)    对需要加入集群中的每个节点执行m)-n)步骤
 | --cache   --max-sql-memory | 增加节点缓存和临时 SQL 内存大小到操作系统内存的25%，用于优化读性能和内存中 SQL 执行 |
 | --background               | 指定后台运行                                                 |
 
-**4.**     **初始化集群**
+ **初始化集群**
 
 p)    在集群第一个节点执行数据库init命令。（需要该节点拥有 root 用户的证书和密钥）
 
 `$ drdb init --certs-dir=/root/certs --host=<address of any node>`
 
-#### 3.4.3  非安全模式部署和启动
+#### 非安全模式部署和启动
 
-**1.**     **获取数据库可执行文件**
+**获取数据库可执行文件**
 
 a)     获取ZNBase数据库文件并上传到PATH路径下/usr/local/bin
 
-**2.**     **数据库启动**
+ **数据库启动**
 
 b)    SSH 到需要启动服务的节点机器，获取数据库可执行文件，并上传到指定目录
 
@@ -255,7 +255,7 @@ d)    在集群中的其它节点重复执行b)-c)步骤
 | --cache   --max-sql-memory | 增加节点缓存和临时 SQL 内存大小到操作系统内存的25%，用于优化读性能和内存中 SQL 执行 |
 | --background               | 指定后台运行                                                 |
 
-**3.**     **初始化集群**
+ **初始化集群**
 
 e)     在集群第一个节点执行 数据库 init 命令
 
@@ -272,7 +272,7 @@ e)     在集群第一个节点执行 数据库 init 命令
 - 没有网络加密或认证，因此欠缺机密性。 
 
 
-#### 3.4.4部署后检查
+#### 部署后检查
 
 **1.**     创建NODETEST数据库
 
@@ -310,7 +310,7 @@ e)     在集群第一个节点执行 数据库 init 命令
 
    c)     使用`\q`或`CTRL+D`退出
 
-#### 3.4.5配置 HAProxy 负载均衡
+#### 配置 HAProxy 负载均衡
 
 每一个数据库集群内的节点对于集群来说，都是一个 SQL 网关。但是为了保证客户端的性能以及可靠性，建议使用负载均衡功能，并且ZNBase数据库内置了一个命令，用于生成可与正在运行的集群配合使用的 HAPROXY配置文件：.
 
@@ -358,82 +358,3 @@ e)     在集群第一个节点执行 数据库 init 命令
 
  e)     若要使用多个HAPROXY实例，请重复步骤a)-d)
 
-## 3.5  性能测试方法
-
-#### 3.5.1对ZNBase数据库进行 TPC-C 测试
-
-本节介绍如何对ZNBase数据库进行 TPC-C 测试，主要进行标准模型TPCC中SQL语句支持情况测试，TPCC模型中的SQL语句结构复杂，通过验证对标准模型中的SQL操作支持情况，来判断数据库对sql的支持能力。
-
-##### **1.**   **数据库标准模型TPCC支持情况**
-
-###### 1.1 准备环境
-
-a)   安全模式和非安全模式的三节点集群环境各一套
-
-b)   数据库启动完毕，且处于正常工作状态
-
-c)   内置工具workload加载TPCC测试数据
-
-d)   内置工具workload进行TPCC性能测试
-
-###### **1.2 测试语句**
-
-- 加载数据（安全模式）：
-
-  `drdb workload init tpcc 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'`
-
-- 执行测试（安全模式）：
-
-  `drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'`
-
-- 加载数据（非安全模式）：
-
-  `drdb workload init tpcc 'postgresql://root@localhost:26257?sslmode=disable'`
-
-- 执行测试（非安全模式）
-
-  `drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslmode=disable`
-
-######  **1.3 结果分析**
-
-   通过工具运行TPCC性能测试，支持TPCC模型SQL
-
-   ![image-20201216203749858](./assets/install/image-20201216203749858.png)
-
-##### **2.**   **数据库标准模型TPCC的性能表现**
-
-###### **2.1 准备环境**
-
-- 安全模式和非安全模式集群环境各一套
-
-- 搭建200台节点的大规模集群
-
-- 加载4000仓的TPCC测试数据。
-
-- 数据库启动完毕，且处于正常工作状态
-
-- 内置工具workload加载TPCC测试数据
-
-- 内置工具workload进行TPCC性能测试
-
-###### **2.2 测试语句**
-
-- 加载数据（安全模式）：
-
-  `drdb workload init tpcc 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'`
-
-- 执行测试（安全模式）：
-
-  `drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslcert=certs/client.root.crt&sslkey=certs/client.root.key&sslmode=verify-full&sslrootcert=certs/ca.crt'`
-
-- 加载数据（非安全模式）：
-
-  `drdb workload init tpcc 'postgresql://root@localhost:26257?sslmode=disable'`
-
-- 执行测试（非安全模式）
-
-  `drdb workload run tpcc --duration=1m 'postgresql://root@localhost:26257?sslmode=disable`
-
-###### **2.3 结果分析**
-
-​        200台数据库节点，4000仓TPCC数据，tmpC约44662

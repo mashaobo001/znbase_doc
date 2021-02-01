@@ -327,8 +327,8 @@ e)     在集群第一个节点执行 数据库 init 命令
 
   默认情况下，会自动生成 HAPROXY.CFG文件，该配置文件如下:
 
-   <Global/>
-   <maxconn 4096/>
+   <Global>
+   < maxconn 4096>
    < defaults  mode tcp/>
    < Timeout values should be configured for your specific use.
    < See: https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#4timeout%20connect

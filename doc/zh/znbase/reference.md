@@ -14431,7 +14431,7 @@ S		ET CLUSTER SETTING 语句用于修改集群设置。
 
 
 
-## Change Data Capture(CDC)
+# Change Data Capture(CDC)
 
 #### 概述
 

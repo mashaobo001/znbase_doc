@@ -7,19 +7,19 @@
 **注意事项：对于生产环境，必须参考安装部署章节进行实际部署！**
 
 ### **非安全模式启动：**
- **A 启动集群服务**
+ **A. 启动集群服务**
 
 ```sh
 bini start --insecure [--store=<Data Directory>] [--advertise-addr=<Node Address>:<Node Port>] --listen-addr=<Node Address>:<Node Port>--http-addr=<Node Address>:<Node HTTP Port> --join=<Node List of Cluster> --cache=<Percent or Actual Usage Size of Physical Memory> --max-sql-memory=<Percent or Actual Usage Size of Memory> –background
 ```
 
- **B 初始化数据库**
+ **B. 初始化数据库**
 
 ```sh
 bini init --insecure --host=<Address and Port of any Node>
 ```
 
- **C 入库**
+ **C. 入库**
 
 ```sh
 bini sql --insecure --host=<Address and Port of any Node>
@@ -76,6 +76,7 @@ bini sql --insecure --host=<Address and Port of any Node>
  （3）修改`param.yaml`中的设置参数
 
 ![img](./assets/quick/3-3.png)
+
 
 （4）执行ansible-playbook bini_secure.playbook -e "@param.yaml"命令，进行bini部署
 

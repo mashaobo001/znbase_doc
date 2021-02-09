@@ -72,10 +72,12 @@ bini sql --insecure --host=<Address and Port of any Node>
  （2）将**bini**的二进制文件放在**playbook**文件同级目录下
 
 ![img](./assets/quick/3-2.png)
+ 
  （3）修改`param.yaml`中的设置参数
 
 ![img](./assets/quick/3-3.png)
- （4）执行ansible-playbook bini_secure.playbook -e "@param.yaml"命令，进行bini部署
+
+（4）执行ansible-playbook bini_secure.playbook -e "@param.yaml"命令，进行bini部署
 
 ![img](./assets/quick/3-4-1.png)
 

@@ -19,7 +19,7 @@ bini start --insecure [--store=<Data Directory>] [--advertise-addr=<Node Address
 bini init --insecure --host=<Address and Port of any Node>
 ```
 
- **C. 入库**
+ **C. 登入数据库**
 
 ```sh
 bini sql --insecure --host=<Address and Port of any Node>

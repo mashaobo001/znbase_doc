@@ -1,5 +1,4 @@
 
-
 # 安装部署
 
 ## 软硬件环境需求
@@ -340,9 +339,9 @@ e)     在集群第一个节点执行 数据库 init 命令
  >         mode tcp  
  >         balance roundrobin  
  >         option httpchk GET /health?ready=1  
- >         server drdb1 `<node1 address>:26257 check port 8080 ` 
- >         server drdb2 `<node2 address>:26257 check port 8080`  
- >         server drdb3 `<node3 address>:26257 check port 8080`  
+ >         server drdb1 `<node1 address>:26257 check port 8080 `
+ >         server drdb2 `<node2 address>:26257 check port 8080 `
+ >         server drdb3 `<node3 address>:26257 check port 8080 `  
 
   b)    将CFG文件上传到要运行的HAPROXY机器上
 

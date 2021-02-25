@@ -76,22 +76,20 @@ bini sql --insecure --host=<Address and Port of any Node>
 
 （1）在Ansible的host文件中增加组**`bini_setup`**，组内以IP形式配置部署bini的节点信息
 
-![img](C:\Users\wudi03\Desktop\关于ZNBase和快速入门\Pictures\3-1.png)
+![img](./assets/quick/3-1.png)
 
  （2）将**bini**的二进制文件放在**playbook**文件同级目录下
 
-![img](C:\Users\wudi03\Desktop\关于ZNBase和快速入门\3-2.png)
+![img](./assets/quick/3-2.png)
 
  （3）修改`param.yaml`中的设置参数
 
-![img](C:\Users\wudi03\Desktop\关于ZNBase和快速入门\3-3.png)
-
+![img](./assets/quick/3-3.png)
  （4）执行`ansible-playbook bini_secure.playbook -e "@param.yaml"`命令，进行bini部署
 
-![img](C:\Users\wudi03\Desktop\关于ZNBase和快速入门\3-4-1.png)
+![img](./assets/quick/3-4-1.png)
 
-![img](C:\Users\wudi03\Desktop\关于ZNBase和快速入门\3-4-2.png)![img](C:\Users\wudi03\Desktop\关于ZNBase和快速入门\3-4-3.png)
-
+![img](./assets/quick/3-4-2.png)![img](./assets/quick/3-4-3.png)
 （5）在NewSQL节点查看集群状态
 
 登陆到`/etc/ansible/hosts`中配置的第一个节点，并执行如下命令：
@@ -102,7 +100,8 @@ bini node status --certs-dir=/root/certs/ --host=< IP Address of Node1 >:< Servi
 
 **注：**`< IP Address of Node1 >`表示第一节点的IP地址，`< Service Port of Node1 >`表示第一节点的服务端口号。
 
-![img](C:\Users\wudi03\Desktop\关于ZNBase和快速入门\3-5.png)
+![img](./assets/quick/3-5.png)
+
 
 （6）在Ansible执行节点查看NewSQL节点进程
 
@@ -110,11 +109,11 @@ bini node status --certs-dir=/root/certs/ --host=< IP Address of Node1 >:< Servi
 ansible bini_setup -m shell -a "ps -ef |grep bini |grep -vi grep"
 ```
 
- ![3-6](C:\Users\wudi03\Desktop\关于ZNBase和快速入门\3-6.png)
+ ![3-6](./assets/quick/3-6.png)
 
 
 
-## ****基本操作**
+## **基本操作**
 
 成功部署ZNBase集群之后，便可以在 ZNBase中执行 SQL 语句了。本文档介绍基本的 SQL 操作。完整的 SQL 语法规则，请参照 [ZNBase SQL Language Reference](). 
 
@@ -417,4 +416,3 @@ LEFT JOIN (SELECT to_account,SUM(amount) income FROM t1 GROUP BY to_account) b O
 
 Time: 2.458159ms
 ```
-
